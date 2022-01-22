@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Fourier Circle Drawer</title>
+  <link rel="shortcut icon" href="#">
+</head>
+
+<body>
+  <canvas id="board" />
+  <script type="module">
+    import CircleThing from "./circle-thing.js";
+    const canvas = document.getElementById("board");
+    const cxt = canvas.getContext("2d");
+    let circles = new CircleThing([
+            {
+                size:1,
+                rotation: 0,
+                frequency: 1,
+            },
+            {
+                size:2,
+                rotation: 0,
+                frequency: 1,
+            }
+        ]);
+    setInterval(
+      () => {
+        circles.render(cxt, 0.1);
+      },
+      100,
+    )
+  </script>
+</body>
+
+</html>
