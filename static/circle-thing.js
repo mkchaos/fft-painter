@@ -39,8 +39,9 @@ export default class CircleThing {
 
   // Add a draw point. Ignores how far the circles themselves are in the process of being drawn.
   addDrawPoint() {
+    const first_circle = this.circles[0];
     const circle = this.circles[this.circles.length - 1];
-    if (circle.rotation - circle.startRotation < 2 * Math.PI) {
+    if (first_circle.rotation - first_circle.startRotation < 2 * Math.PI + 0.1) {
       this.drawnPoints.push(circle.end);
     }
   }
@@ -55,20 +56,24 @@ export default class CircleThing {
   render(
     context,
     scale,
+    off_x,
+    off_y,
   ) {
+    context.strokeStyle = "black";
     for (let i = 0; i < this.circles.length; i++) {
-      this.circles[i].render(context, scale);
+      this.circles[i].render(context, scale, off_x, off_y);
     }
+    context.strokeStyle = "red";
     if (this.drawnPoints.length > 0) {
       context.beginPath();
       context.moveTo(
-        scale * (this.drawnPoints[0].x),
-        scale * (this.drawnPoints[0].y),
+        scale * (this.drawnPoints[0].x + off_x),
+        scale * (this.drawnPoints[0].y + off_y),
       );
       for (let i = 1; i < this.drawnPoints.length; i++) {
         context.lineTo(
-          scale * (this.drawnPoints[i].x),
-          scale * (this.drawnPoints[i].y),
+          scale * (this.drawnPoints[i].x + off_x),
+          scale * (this.drawnPoints[i].y + off_y),
         );
       }
       context.stroke();

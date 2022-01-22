@@ -65,22 +65,24 @@ export default class Circle {
   render(
     context,
     scale,
+    off_x,
+    off_y,
   ) {
     context.beginPath();
     context.arc(
-      scale * (this.x),
-      scale * (this.y),
+      scale * (this.x + off_x),
+      scale * (this.y + off_y),
       scale * this.size,
       0,
       2 * Math.PI,
     );
     context.moveTo(
-      scale * (this.x),
-      scale * (this.y),
+      scale * (this.x + off_x),
+      scale * (this.y + off_y),
     );
     context.lineTo(
-      scale * (this.endX),
-      scale * (this.endY),
+      scale * (this.endX + off_x),
+      scale * (this.endY + off_y),
     );
     context.stroke();
   }
