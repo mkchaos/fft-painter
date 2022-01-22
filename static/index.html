@@ -8,34 +8,35 @@
 </head>
 
 <body>
-  <canvas id="board" width="200" height="100" style="border:1px solid #c3c3c3;">
+  <canvas id="board" width="600" height="400" style="border:1px solid #c3c3c3;">
     <script type="module">
       // import Circle from "./circle.js";
       import CircleThing from "./circle-thing.js";
       const canvas = document.getElementById("board");
       const ctx = canvas.getContext("2d");
-      
-    let circles = new CircleThing([
-            {
-                size:30,
-                rotation: 0,
-                frequency: 1,
-            },
-            {
-                size:10,
-                rotation: 0,
-                frequency: 2,
-            }
-        ]);
-        
-    setInterval(
-      () => {
-        circles.update(0.01);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        circles.render(ctx, 1, 80, 50);
-      },
-      100,
-    )
+
+      let circles = new CircleThing([
+        {
+          size: 30,
+          rotation: 0,
+          frequency: 1,
+        },
+        {
+          size: 10,
+          rotation: 0,
+          frequency: 2,
+        }
+      ]);
+      const off_x = canvas.width / 2;
+      const off_y = canvas.height / 2;
+      setInterval(
+        () => {
+          circles.update(0.03);
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          circles.render(ctx, 2, off_x, off_y);
+        },
+        100,
+      )
     </script>
 </body>
 
