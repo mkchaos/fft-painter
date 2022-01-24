@@ -1,3 +1,5 @@
+'use strict';
+
 import Circle from "./circle.js";
 
 // class CircleConfig {

@@ -1,3 +1,5 @@
+'use strict';
+
 export default class Circle {
   // size: number;
   // startRotation: number;
@@ -35,7 +37,6 @@ export default class Circle {
   }
 
   update(deltaT) {
-    // TODO: Some delta T
     this.rotation += 2 * Math.PI * this.frequency * deltaT;
     if (this.parent != null) {
       this.moveToParent();

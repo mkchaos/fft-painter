@@ -1,0 +1,11 @@
+POST http://localhost:3000/fft HTTP/1.1
+content-type: application/json
+
+{
+    "xs": [
+        1, 2, 3, 4
+    ],
+    "ys": [
+        1, 2, 3, 4
+    ]
+}

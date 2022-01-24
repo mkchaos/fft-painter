@@ -8,36 +8,61 @@
 </head>
 
 <body>
-  <canvas id="board" width="600" height="400" style="border:1px solid #c3c3c3;">
-    <script type="module">
-      // import Circle from "./circle.js";
-      import CircleThing from "./circle-thing.js";
-      const canvas = document.getElementById("board");
-      const ctx = canvas.getContext("2d");
-
-      let circles = new CircleThing([
-        {
-          size: 30,
-          rotation: 0,
-          frequency: 1,
-        },
-        {
-          size: 10,
-          rotation: 0,
-          frequency: 2,
-        }
-      ]);
-      const off_x = canvas.width / 2;
-      const off_y = canvas.height / 2;
-      setInterval(
-        () => {
-          circles.update(0.03);
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          circles.render(ctx, 2, off_x, off_y);
-        },
-        100,
-      )
-    </script>
+  <div><canvas id="board" width="600" height="400" style="border:1px solid #c3c3c3;" /></div>
+  <button id="fft_btn"> FFT </button>
+  <script type="module">
+    import CircleThing from "./circle-thing.js";
+    const canvas = document.getElementById("board");
+    const ctx = canvas.getContext("2d");
+    const center_x = canvas.width / 2;
+    const center_y = canvas.height / 2;
+    let circles = new CircleThing([
+      {
+        size: 30,
+        rotation: 0,
+        frequency: 1,
+      },
+      {
+        size: 10,
+        rotation: 0,
+        frequency: 2,
+      }
+    ]);
+    const put =  (xs, ys) => {
+      // for (let i = 0; i < xs.length; i++) {
+      //   xs[i] -= center_x;
+      // }
+      // for (let i = 0; i < ys.length; i++) {
+      //   ys[i] -= center_y;
+      // }
+      console.log("xxx");
+      fetch("/fft", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+          {
+            xs: xs, ys: ys
+          }
+        )
+      }).then(res => res.json()).then(data => {
+        console.log("Response", data);
+        circles = new CircleThing(data);
+      })
+    };
+    const btn = document.getElementById("fft_btn");
+    btn.onclick = () => {
+       put([-50, 0, 50, 50, 50, 0, -50, -50], [-50, -50, -50, 0, 50, 50, 50, 0])
+    }
+    btn.click();
+    setInterval(
+      () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        circles.render(ctx, 2, center_x, center_y);
+        circles.update(0.01);
+      },
+      10,
+    )
+  </script>
 </body>
 
 </html>
