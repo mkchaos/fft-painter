@@ -90,28 +90,27 @@ export class FFT {
     return changed_data;
   }
 
-  bufferfly(data: ComplexNumber[], reverse: boolean) {
+  bufferfly(data: ComplexNumber[], inverse: boolean) {
     const cd = this.change(data);
     const size = this.size;
-    for (let seg = 2; seg <= size; seg *= 2) {
-      const half_seg = seg / 2;
-      let r = 2 * Math.PI / half_seg;
-      if (reverse) {
+    for (let seg = 1; seg <= size; seg *= 2) {
+      let r = Math.PI / seg;
+      if (inverse) {
         r = -r;
       }
       const wn = ComplexNumber.from_rad(r);
-      for (let i = 0; i < size; i += seg) {
+      for (let i = 0; i < size; i += seg + seg) {
         let w = new ComplexNumber(1, 0);
-        for (let j = 0; j < half_seg; j++) {
+        for (let j = 0; j < seg; j++) {
           const a = cd[i + j];
-          const b = cd[i + half_seg + j].mul(w);
+          const b = cd[i + seg + j].mul(w);
           cd[i + j] = a.add(b);
-          cd[i + j + half_seg] = a.sub(b);
+          cd[i + j + seg] = a.sub(b);
           w = w.mul(wn);
         }
       }
     }
-    if (reverse) {
+    if (inverse) {
       for (let i = 0; i < size; i++) {
         cd[i] = cd[i].div(size);
       }
